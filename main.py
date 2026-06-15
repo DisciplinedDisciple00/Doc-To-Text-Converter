@@ -21,4 +21,4 @@ if user_file:
             with st.expander(f"Page {i+1}"):
                 st.text(result[i])
 
-        chunking_data = chunker(result)
+        chunking_metadata = chunker(result)

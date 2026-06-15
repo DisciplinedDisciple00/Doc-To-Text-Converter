@@ -33,6 +33,6 @@ def chunker(pages):
     chunking_data = {}
     for content in pages:
         for i in range(len(pages)):
-            chunking_data = {i: content}
+            chunking_metadata = {i: content}
 
-    return chunking_data
+    return chunking_metadata
