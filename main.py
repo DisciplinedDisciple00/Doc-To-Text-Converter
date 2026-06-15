@@ -1,5 +1,5 @@
 import streamlit as st
-from functions import converter, len_finder
+from functions import converter, len_finder, chunker
 
 
 st.title("Doc-To-Text Converter")
@@ -16,8 +16,9 @@ if user_file:
 
     if targets:
         result = converter(user_file, targets)
-        pages = result.split("Page End")
 
-        for i in range(len(pages)):
+        for i in range(len(result)):
             with st.expander(f"Page {i+1}"):
-                st.text(pages[i])
+                st.text(result[i])
+
+        chunking_data = chunker(result)

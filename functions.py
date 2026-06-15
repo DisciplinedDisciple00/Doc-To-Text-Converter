@@ -25,4 +25,14 @@ def converter(file, targets):
     extracted_data = conv.convert(source, page_range=targets).document
     result = extracted_data.export_to_markdown(page_break_placeholder="Page End")
 
-    return result
+    pages = result.split("Page End")
+
+    return pages
+
+def chunker(pages):
+    chunking_data = {}
+    for content in pages:
+        for i in range(len(pages)):
+            chunking_data = {i: content}
+
+    return chunking_data
