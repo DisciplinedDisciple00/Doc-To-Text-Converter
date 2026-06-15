@@ -29,10 +29,12 @@ def converter(file, targets):
 
     return pages
 
-def chunker(pages):
-    chunking_data = {}
-    for content in pages:
-        for i in range(len(pages)):
-            chunking_metadata = {i: content}
+
+#Getting chunking MetaData
+def chunker_md(pages):
+    chunking_metadata = {}
+
+    for i, content in enumerate(pages):
+        chunking_metadata[i+1] = content
 
     return chunking_metadata

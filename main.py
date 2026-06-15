@@ -1,8 +1,8 @@
 import streamlit as st
-from functions import converter, len_finder, chunker
+from functions import converter, len_finder, chunker_md
 
 
-st.title("Doc-To-Text Converter")
+st.title("Pdf-To-Text Converter")
 
 user_file = st.file_uploader("Upload your file here - ")
 
@@ -21,4 +21,5 @@ if user_file:
             with st.expander(f"Page {i+1}"):
                 st.text(result[i])
 
-        chunking_metadata = chunker(result)
+        chunking_metadata = chunker_md(result)
+        st.text(chunking_metadata)
