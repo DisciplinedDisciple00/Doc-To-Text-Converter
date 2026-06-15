@@ -1,5 +1,6 @@
 import streamlit as st
 from functions import converter, len_finder, chunker_md
+from rag import embedder, chunker
 
 
 st.title("Pdf-To-Text Converter")
@@ -22,4 +23,6 @@ if user_file:
                 st.text(result[i])
 
         chunking_metadata = chunker_md(result)
-        st.text(chunking_metadata)
+        chunking_data = chunker(chunking_metadata)
+        embeddings = embedder(chunking_data)
+        st.text(f"{len(embeddings)}, {len(chunking_data)}")
