@@ -24,7 +24,7 @@ def chunker(chunking_md):
     return chunks_data
 
 
-#Embedding generator
+#Embeddings generator
 def embedder(chunks_data):
     chunks_content = []
     for data in chunks_data:
@@ -56,3 +56,18 @@ def store(chunks_data, embeddings):
     collection = client.get_or_create_collection(name="doc-rag")
 
     collection.add(ids=ids, embeddings=embeddings, metadatas=pg_metadata, documents=chunks_content)
+
+
+#Generating query embeddings
+def query_embedder(query):
+    query_embedding = emb.encode(query)
+
+    return query_embedding
+
+
+#Returning relevant data retrieved from comparing with database
+def retrieve(query_embeddings):
+    collection = client.get_or_create_collection(name="doc-rag")
+    retrieved_data = collection.query(query_embeddings=query_embeddings, n_results=3)
+
+    return retrieved_data
