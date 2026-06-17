@@ -49,7 +49,7 @@ def store(chunks_data, embeddings):
         pg_metadata.append({"page": pg})
 
     try:
-        client.delete_collection(name="doc_rag")
+        client.delete_collection(name="doc-rag")
     except:
         pass
 
