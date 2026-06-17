@@ -13,3 +13,16 @@ def prompt_builder(query, retrieved_data):
     return prompt
 
 
+#LLM response
+def response(prompt, model="gemma3:12b"):
+    response = ollama.chat(
+        model=model,
+        messages=[
+            {
+                "role" : "user",
+                "content" : prompt
+            }
+        ]
+    )
+
+    return response["message"]["content"]

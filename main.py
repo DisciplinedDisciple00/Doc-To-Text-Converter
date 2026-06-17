@@ -1,7 +1,7 @@
 import streamlit as st
 from functions import converter, len_finder, chunker_md
 from rag import embedder, chunker, store, query_embedder, retrieve
-from llm import prompt_builder
+from llm import prompt_builder, response
 
 
 st.title("Pdf-To-Text Converter")
@@ -36,13 +36,7 @@ if user_file:
 
             prompt = prompt_builder(query, retrieved_data)
 
-            with st.expander("Chunks MD"):
-                st.text(f"{chunking_metadata}")
-            with st.expander("Chunks Data"):
-                st.text(f"{chunking_data}")
-            with st.expander("Embeddings"):
-                st.text(f"{embeddings}")
-            with st.expander("Retrieved data"):
-                st.text(f"{retrieved_data["documents"][0]}")
-            with st.expander("Prompt"):
-                st.text(f"{prompt}")
+            response = response(prompt)
+
+            with st.expander("Response"):
+                st.text(f"{response}")
