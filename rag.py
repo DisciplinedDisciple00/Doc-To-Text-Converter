@@ -68,6 +68,6 @@ def query_embedder(query):
 #Returning relevant data retrieved from comparing with database
 def retrieve(query_embeddings):
     collection = client.get_or_create_collection(name="doc-rag")
-    retrieved_data = collection.query(query_embeddings=query_embeddings, n_results=3)
+    retrieved_data = collection.query(query_embeddings=query_embeddings, n_results=5)
 
     return retrieved_data
