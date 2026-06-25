@@ -17,7 +17,7 @@ def prompt_builder(query, retrieved_data):
 
 
 #LLM response
-def response(prompt, model="gpt-oss:20b"):
+def llm_response(prompt, model="gpt-oss:20b"):
     response = ollama.chat(
         model=model,
         messages=[

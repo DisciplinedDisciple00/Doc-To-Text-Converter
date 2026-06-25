@@ -15,10 +15,9 @@ def len_finder(file):
 
 
 # Main text extraction
-def converter(file, targets):
+def converter(file_bytes, targets):
     conv = DocumentConverter()
 
-    file_bytes = file.getvalue()
     stream_obj = BytesIO(file_bytes)
     source = DocumentStream(name="User-File", stream=stream_obj)
 

@@ -9,7 +9,7 @@ emb =  SentenceTransformer("BAAI/bge-base-en-v1.5")
 
 
 #Initializing chromaDB
-client = chromadb.PersistentClient("./chroma_db")
+client = chromadb.PersistentClient("../../chroma_db")
 
 
 #Chunk converter
