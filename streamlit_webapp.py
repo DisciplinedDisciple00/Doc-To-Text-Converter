@@ -1,7 +1,7 @@
 import streamlit as st
+import requests as req
 from functions import converter, len_finder, chunker_md
-from rag import embedder, chunker, store, query_embedder, retrieve
-from llm import prompt_builder, response
+from rag import embedder, chunker, store
 
 
 st.title("Pdf-To-Text Converter")
@@ -12,7 +12,7 @@ if user_file:
     limit = len_finder(user_file)
 
     #Setting up slider values
-    targets = st.slider("Till which page would you like to convert - ", 1, limit, (1, 1))
+    targets = st.slider("Till which page would you like to convert - ", 1, limit, (1, 16))
     start = targets[0]
     end = targets[1]
 
@@ -31,12 +31,12 @@ if user_file:
 
         query = st.chat_input("Enter your query : ")
         if query:
-            query_embeddings = query_embedder(query)
-            retrieved_data = retrieve(query_embeddings)
+            api_response = req.post(
+                url="http://127.0.0.1:8000/chat",
+                json={"message" : query}
+            )
 
-            prompt = prompt_builder(query, retrieved_data)
-
-            response = response(prompt)
+            response = api_response.json()["answer"]
 
             with st.expander("Response"):
                 st.text(f"{response}")
