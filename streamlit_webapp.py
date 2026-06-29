@@ -33,8 +33,17 @@ if user_file:
         result = text_response.json()
 
         for i in range(len(result)):
-            with st.expander(f"Page {i+1}"):
+            with st.sidebar.expander(f"Page {i+1}"):
                 st.text(result[i])
+
+        #Model select feature
+        selected_model = st.selectbox(
+            "Select Model",
+            [
+                "gpt-oss:20b",
+                "gemma3:12b"
+            ]
+        )
 
         #Initialize chat history
         if "messages" not in st.session_state:
@@ -65,7 +74,8 @@ if user_file:
             with st.spinner("Thinking..."):
                 api_response = req.post(
                     url="http://127.0.0.1:8000/chat",
-                    json={"message": query},
+                    json={"message": query,
+                          "model" : selected_model},
                     stream=True
                 )
 

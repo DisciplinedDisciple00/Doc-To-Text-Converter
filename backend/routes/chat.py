@@ -10,7 +10,7 @@ router = APIRouter()
 #Chat part
 @router.post("/chat")
 def chat(request: ChatRequest):
-    stream = ask_rag(request.message)
+    stream = ask_rag(request.message, request.model)
 
     return StreamingResponse(
         stream,
