@@ -36,15 +36,48 @@ if user_file:
             with st.expander(f"Page {i+1}"):
                 st.text(result[i])
 
-        query = st.chat_input("Enter your query : ")
+        # Initialize chat history
+        if "messages" not in st.session_state:
+            st.session_state.messages = []
+
+        # Display previous messages
+        for message in st.session_state.messages:
+            with st.chat_message(message["role"]):
+                st.markdown(message["content"])
+
+        # Chat input
+        query = st.chat_input("Enter your query...")
+
         if query:
-            #API connection for QnA
-            api_response = req.post(
-                url="http://127.0.0.1:8000/chat",
-                json={"message" : query}
+            # Display user message
+            with st.chat_message("user"):
+                st.markdown(query)
+
+            # Store user message
+            st.session_state.messages.append(
+                {
+                    "role": "user",
+                    "content": query
+                }
             )
 
-            response = api_response.json()["answer"]
+            # Call backend
+            with st.spinner("Thinking..."):
+                api_response = req.post(
+                    url="http://127.0.0.1:8000/chat",
+                    json={"message": query}
+                )
 
-            with st.expander("Response"):
-                st.text(f"{response}")
+                response = api_response.json()["answer"]
+
+            # Display assistant response
+            with st.chat_message("assistant"):
+                st.markdown(response)
+
+            # Store assistant response
+            st.session_state.messages.append(
+                {
+                    "role": "assistant",
+                    "content": response
+                }
+            )
