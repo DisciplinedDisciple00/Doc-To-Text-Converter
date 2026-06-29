@@ -36,24 +36,24 @@ if user_file:
             with st.expander(f"Page {i+1}"):
                 st.text(result[i])
 
-        # Initialize chat history
+        #Initialize chat history
         if "messages" not in st.session_state:
             st.session_state.messages = []
 
-        # Display previous messages
+        #Display previous messages
         for message in st.session_state.messages:
             with st.chat_message(message["role"]):
                 st.markdown(message["content"])
 
-        # Chat input
+        #Chat input
         query = st.chat_input("Enter your query...")
 
         if query:
-            # Display user message
+            #Display user message
             with st.chat_message("user"):
                 st.markdown(query)
 
-            # Store user message
+            #Store user message
             st.session_state.messages.append(
                 {
                     "role": "user",
@@ -61,20 +61,28 @@ if user_file:
                 }
             )
 
-            # Call backend
+            #Call backend
             with st.spinner("Thinking..."):
                 api_response = req.post(
                     url="http://127.0.0.1:8000/chat",
-                    json={"message": query}
+                    json={"message": query},
+                    stream=True
                 )
 
-                response = api_response.json()["answer"]
-
-            # Display assistant response
+            #Display assistant response token by token
             with st.chat_message("assistant"):
-                st.markdown(response)
 
-            # Store assistant response
+                def stream_response():
+                    for chunk in api_response.iter_content(
+                            chunk_size=None,
+                            decode_unicode=True
+                    ):
+                        if chunk:
+                            yield chunk
+
+                response = st.write_stream(stream_response)
+
+            #Store assistant response
             st.session_state.messages.append(
                 {
                     "role": "assistant",

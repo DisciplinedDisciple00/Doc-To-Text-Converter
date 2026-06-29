@@ -25,7 +25,9 @@ def llm_response(prompt, model="gpt-oss:20b"):
                 "role" : "user",
                 "content" : prompt
             }
-        ]
+        ],
+        stream=True
     )
 
-    return response["message"]["content"]
+    for chunk in response:
+        yield chunk["message"]["content"]

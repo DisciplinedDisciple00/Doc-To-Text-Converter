@@ -6,6 +6,5 @@ def ask_rag(query):
     query_embeddings = query_embedder(query)
     retrieved_data = retrieve(query_embeddings)
     prompt = prompt_builder(query, retrieved_data)
-    answer = llm_response(prompt)
 
-    return answer
+    return llm_response(prompt)
